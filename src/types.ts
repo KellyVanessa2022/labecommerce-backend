@@ -9,6 +9,7 @@ export type TProduct = {
     price: number,
     category: CATEGORY_PURCHASE,
     
+
 }
 
 export type TPurchase = {
