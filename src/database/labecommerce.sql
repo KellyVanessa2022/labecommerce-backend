@@ -1,132 +1,161 @@
-
-
---relacoes sql I
-
-CREATE TABLE users( -- criar tabela
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+-- Active: 1674579802581@@127.0.0.1@3306
+CREATE TABLE users (
+	id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	email TEXT UNIQUE NOT NULL,
+	password TEXT NOT NULL
 );
 
+--Populando tabela de users
 INSERT INTO users(id, email, password)
-VALUES ("o001", "kelly@gmail.com", "23215op"),
-("o002", "marta@gmail.com", "46hye58"),
-("o003", "junior@gmail.com", "13794bhds"),
-("o004", "vinny@gmail.com", "469558se");
+VALUES("a001", "kelly@gmail.com", "221l8o7");
 
-SELECT * FROM users;
+INSERT INTO users(id, email, password)
+VALUES("a002", "maria@gmail.com", "031khe8");
+
+INSERT INTO users(id, email, password)
+VALUES("a003", "vinnysantos@gmail.com", "seqw78e9qd");
+
+
 
 --excluir tabela
 DROP TABLE users;
 
---retorna os usuários cadastrados
-SELECT ('users');
-
---mocke um termo de busca (email)
-SELECT * FROM users
-WHERE email;
-
---mocke uma id
-SELECT * FROM users
-WHERE id = "003";
-
---delete a linha baseada no valor mockado
-DROP TABLE users
-id = 3;
 
 
-
-
-CREATE TABLE products( -- criar tabela de produtos
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    name TEXT NOT NULL,
-    price REAL NOT NULL ,
+CREATE TABLE products (
+id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	name TEXT  NOT NULL,
+	price REAL NOT NULL,
     category TEXT NOT NULL
-);
-
---excluir tabela
-DROP TABLE products;
+ );
 
 INSERT INTO products(id, name, price, category)
-VALUES("o001", "mouse", 50, "eletronicos"),
-("o002", "teclado", 120, "eletronicos"),
-("o003", "fone de ouvido", 100, "eletronicos"),
-("o004", "webcam", 290, "eletronicos"),
-("o005", "mousepad", 30, "eletronicos")
+VALUES("f001",  "mouse", 50, "eletronicos");
 
-SELECT * FROM products;
-
---retorna os produtos cadastrados
-SELECT ('products');
---mocke um termo de busca (category)
-SELECT * FROM products
-WHERE category;
-
---mocke um termo de busca, por exemplo "monitor"
---retorna o resultado baseado no termo de busca
-SELECT * FROM products
-WHERE name = "computador";
-
---mocke uma products
-SELECT * FROM products
-WHERE id = "a003";
-
---mocke um novo usuário
---insere o item mockado na tabela users
 INSERT INTO products(id, name, price, category)
-VALUES
-("a006", "monitor", 899, "eletronicos");
+VALUES("f002","teclado", 120, "eletronicos");
 
---mocke uma id
---delete a linha baseada no valor mockado
-DELETE FROM products
-WHERE id = "a002";
+INSERT INTO products(id, name, price, category)
+VALUES("f003","fone de ouvido", 100, "eletronicos");
 
---mocke valores para editar um user
---edite a linha baseada nos valores mockados
+INSERT INTO products(id, name, price, category)
+VALUES("f004","webcam", 290, "eletronicos");
+
+INSERT INTO products(id, name, price, category)
+VALUES("f005","mousepad", 30, "eletronicos");
+
+SELECT *  from products;
+
 UPDATE products 
-SET price = 40
-WHERE id = "a001";
+SET name = "suporte de notebook", price =200
+WHERE id = "f002";
 
-SELECT * FROM products;
+UPDATE products
+SET price = 200
+WHERE id = "f002";
 
---retorna o resultado ordenado pela coluna email em ordem crescente
-SELECT * FROM users ORDER by email ASC;
 
---retorna o resultado ordenado pela coluna price em ordem crescente
---limite o resultado em 20 iniciando pelo primeiro item
-SELECT * FROM products ORDER by price ASC LIMIT 20;
+SELECT *  from products;
+SELECT *  from users;
 
---mocke um intervalo de preços, por exemplo entre 100.00 e 300.00
---retorna os produtos com preços dentro do intervalo mockado em ordem crescente
-SELECT * FROM products 
-WHERE price >="4" AND price <="40" 
-ORDER by price ASC ;
+SELECT * FROM products
+WHERE name ="mouse";
 
-DROP TABLE purchases;
+INSERT INTO users(id, email, password)
+VALUES("a006", "aline@labenu.com", "4685iyr8u9");
 
-SELECT * FROM purchases;
+
+INSERT INTO products(id, name, price, category)
+VALUES("f006", "notebook", 3220, "eletronicos");
+
+SELECT *  from products;
+
+SELECT * FROM products
+WHERE id= "f006";
+
+DELETE  FROM users
+WHERE id="a006";
+
+
+DELETE FROM products
+WHERE id = "a006";
+
+UPDATE users SET email="jorge@gmail.com", password="1325j5h8" WHERE id="a001";
+
+
+UPDATE products SET price=200 WHERE id="f002";
+
+SELECT * FROM users
+ORDER BY email asc;
+
+
+SELECT * FROM products
+ORDER BY price asc LIMIT 20;
+
+SELECT * FROM products
+WHERE price >= "2" AND price <="150"
+ORDER BY price ASC;
+
 
 CREATE TABLE purchases(
- id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    total_price REAL UNIQUE NOT NULL ,
-    paid INTEGER NOT NULL,
-    delivered_at TEXT,
-    buyer_id TEXT NOT NULL,
-     FOREIGN KEY (buyer_id) REFERENCES users (id)
+	id TEXT PRIMARY KEY UNIQUE NOT NULL,
+	total_price REAL UNIQUE NOT NULL, 
+	paid INTEGER NOT NULL,
+	delivered_at TEXT,
+	buyer_id TEXT NOT NULL, 
+	 FOREIGN KEY (buyer_id) REFERENCES users (id)
+ 
 );
 
 INSERT INTO purchases(id, total_price, paid, delivered_at, buyer_id)
-VALUES ("b001", 3000, 0, "", "001"),
-("b002", 2000, 0, "", "003"),
-("b003", 1000, 0,  "", "005"),
-("b004", 4000, 0, "", "002");
+VALUES("p001",10, 0,"","f001"),
+("p002",20, 0,"","f002"),
+("p003",30, 0,"","f001"),
+("p004",40, 0,"","f003");
+
+SELECT * FROM purchases;
+DROP TABLE purchases;
 
 UPDATE purchases
-SET delivered_at = "DATATIME 22/01/2023"
-WHERE id="b002";
+SET delivered_at=DATETIME("now", "localtime")
+WHERE id ="p001";
 
 SELECT * FROM purchases
 INNER JOIN users
-ON purchases.buyer_id=users.id
-WHERE users.id= "001";
+ON purchases.buyer_id =users.id
+WHERE users.id="a001";
+
+CREATE TABLE purchases_products (
+	purchase_id TEXT NOT NULL, 
+	product_id TEXT NOT NULL, 
+	quantity INTEGER NOT NULL,
+	FOREIGN KEY (purchase_id) REFERENCES purchases(id)
+	FOREIGN KEY (product_id) REFERENCES products(id)
+
+
+);
+INSERT INTO purchases_products(purchase_id, product_id, quantity)
+VALUES
+("p001", "f003", 1),
+("p002", "f003", 2),
+("p003", "f003", 3);
+DROP TABLE purchases_products;
+
+SELECT * FROM purchases
+INNER JOIN  purchases_products  
+ON  purchases_products.purchase_id =purchases.id
+;
+SELECT 
+purchases.id AS purchaseId,
+purchases.total_price, 
+purchases.paid,
+purchases.delivered_at, 
+purchases.buyer_id AS buyerId,
+products.id, 
+products.name,
+products.price
+FROM purchases
+LEFT JOIN purchases_products
+ON purchases_products.purchase_id = purchases.id
+INNER JOIN products
+ON  purchases_products.product_id = products.id;
