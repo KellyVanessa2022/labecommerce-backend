@@ -1,8 +1,7 @@
-
 import { users, products, purchases } from "./database";
 import cors from 'cors'
 import express, { Request, Response } from 'express'
-import { TProduct, TUser, TPurchase } from "./types";
+import { TProduct, TUser, TPurchase } from "./type";
 
 const app = express();
     app.use(express.json())
