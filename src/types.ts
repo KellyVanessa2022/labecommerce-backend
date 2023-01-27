@@ -8,6 +8,7 @@ export type TProduct = {
     name:string,
     price: number,
     category: CATEGORY_PURCHASE,
+    
 }
 
 export type TPurchase = {
