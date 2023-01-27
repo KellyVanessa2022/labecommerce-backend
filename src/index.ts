@@ -1,5 +1,4 @@
-import { users, products, purchases} from "./database";
+import { acessarProductId, acessarProductsName, createPurchase, getAllPurchasesFromUserId} from "./database";
 
-console.table(users)
-console.table(products)
-console.table(purchases)
+console.log(acessarProductsName("tablet"));
+console.log(createPurchase("1", "1", 3, 15));
